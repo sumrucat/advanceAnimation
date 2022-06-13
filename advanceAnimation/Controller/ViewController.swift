@@ -9,90 +9,82 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    
 // MARK:- creating views
 
-    let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.alwaysBounceVertical = false
-        scrollView.bounces = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-
-    let scrollViewContainer: UIStackView = {
-        let view = UIStackView()
-        view.axis = .vertical
-        view.alignment = .center
-        view.spacing = 10
+    let topView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let redView: UIView = {
-        let view = UIView()
-        view.heightAnchor.constraint(equalToConstant: 500).isActive = true
-        view.backgroundColor = .red
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    let tittleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "PLAY"
+        label.textAlignment = .center
+        label.textColor = UIColor.black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
 
-    let blueView: UIView = {
+    
+    let fronView: UIView = {
         let view = UIView()
-        view.heightAnchor.constraint(equalToConstant: 500).isActive = true
-        view.backgroundColor = .blue
+        view.backgroundColor = UIColor.init(hexString: "FB8718")
+        view.layer.cornerRadius = 40
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    let playButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor.init(hexString: "84C821")
+        button.setTitle("", for: .normal)
+        button.layer.cornerRadius = button.frame.size.height/2
+        button.titleLabel?.textAlignment = .center
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
 
 // MARK:- LifeCycle Mehods
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupViews()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollviewSetup()
-        containerViewSetup()
-        viewsSetup()
+        setupConstraint()
     }
-
+    
+    @objc func playButtonTapped() {
+    }
+    
+    func setupViews() {
+        view.addSubview(topView)
+        view.addSubview(fronView)
+        topView.addSubview(tittleLabel)
+        fronView.addSubview(playButton)
+    }
+    
+    func setupConstraint() {
+        self.topView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 80)
+        self.tittleLabel.frame = CGRect(x: (view.frame.size.width/2 - 40), y: 40, width: 80, height: 40)
+        self.fronView.frame = CGRect(x: 30, y: 80, width: view.frame.size.width - 60, height: 550)
+        
+        //play button
+        self.playButton.layer.cornerRadius = 25
+        self.playButton.frame = CGRect(x: fronView.bounds.minX + 30, y: fronView.bounds.maxY - 70, width: fronView.bounds.width - 60, height: 50)
+    }
 }
 
 // MARK:- Autolayout
 
 extension ViewController {
     
-    func setupViews() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(scrollViewContainer)
-        scrollViewContainer.addArrangedSubview(redView)
-        scrollViewContainer.addArrangedSubview(blueView)
-    }
-    
-    func scrollviewSetup() {
-        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-    }
-    
-    func containerViewSetup() {
-        scrollViewContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        scrollViewContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
-        scrollViewContainer.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 60).isActive = true
-        scrollViewContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        // this is important for scrolling
-        scrollViewContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-    }
-    
-    func viewsSetup() {
-        redView.widthAnchor.constraint(equalTo: scrollViewContainer.widthAnchor, constant: -60).isActive = true
-        blueView.widthAnchor.constraint(equalTo: scrollViewContainer.widthAnchor, constant: -60).isActive = true
-        
-    }
 }
 
