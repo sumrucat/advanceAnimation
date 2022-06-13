@@ -18,6 +18,13 @@ class ViewController: UIViewController {
         return view
     }()
     
+    let yellowView: UIView = {
+       let view = UIView()
+        view.backgroundColor = UIColor.init(hexString: "FDE00D")
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    
     let tittleLabel: UILabel = {
         let label = UILabel()
         label.text = "PLAY"
@@ -62,6 +69,15 @@ class ViewController: UIViewController {
     }
     
     @objc func playButtonTapped() {
+        print("hii")
+        UIView.animate(withDuration: 0.5) {
+            self.yellowView.transform = self.yellowView.transform.translatedBy(x: -15, y: -40)
+            self.fronView.bringSubviewToFront(self.tittleLabel)
+            self.tittleLabel.transform = self.tittleLabel.transform.translatedBy(x: -20, y: 40)
+        } completion: { isComp in
+            print("")
+        }
+
     }
     
     func setupViews() {
@@ -69,16 +85,20 @@ class ViewController: UIViewController {
         view.addSubview(fronView)
         topView.addSubview(tittleLabel)
         fronView.addSubview(playButton)
+        fronView.addSubview(yellowView)
     }
     
     func setupConstraint() {
         self.topView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 80)
         self.tittleLabel.frame = CGRect(x: (view.frame.size.width/2 - 40), y: 40, width: 80, height: 40)
-        self.fronView.frame = CGRect(x: 30, y: 80, width: view.frame.size.width - 60, height: 550)
+        self.fronView.frame = CGRect(x: 30, y: 120, width: view.frame.size.width - 60, height: 550)
         
         //play button
         self.playButton.layer.cornerRadius = 25
         self.playButton.frame = CGRect(x: fronView.bounds.minX + 30, y: fronView.bounds.maxY - 70, width: fronView.bounds.width - 60, height: 50)
+        
+        //yellowView
+        self.yellowView.frame = CGRect(x: fronView.bounds.minX + 15, y: fronView.bounds.minY + 20, width: 100, height: 100)
     }
 }
 
